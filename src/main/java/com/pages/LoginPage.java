@@ -48,12 +48,12 @@ public class LoginPage extends ElementUtil {
 * I can also create waitTime in config properties and create explicit
 * wait in the constructor for each page or keep it in the util class
 */
-//    public AccountsPage doLogin(String un, String pwd) {
-//        System.out.println("login with: " + un + " and " + pwd);
-//        driver.findElement(emailId).sendKeys(un);
-//        driver.findElement(password).sendKeys(pwd);
-//        driver.findElement(signInButton).click();
-//        return new AccountsPage(driver);
-//    }
+    public AccountsPage doLogin(String un, String pwd) {
+        System.out.println("login with: " + un + " and " + pwd);
+        driver.findElement(emailId).sendKeys(un);
+        driver.findElement(password).sendKeys(pwd);
+        driver.findElement(signInButton).click();
+        return new AccountsPage(driver);
+    }
 
 }
