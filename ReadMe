@@ -1,1 +1,5 @@
 You can run this using "mvn verify" from the terminal
+A base page class can extend the Element util class so it can be used on every page 
+each page will be expected to extend the nase page class.
+
+Assertions should be done in the test classes i.e the step defs. You can also create Test class so the step defs can extend it.
