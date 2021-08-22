@@ -56,12 +56,12 @@
             <artifactId>webdrivermanager</artifactId>
             <version>4.4.3</version>
         </dependency>
-        <!--For Reports -->
+        <!--For pdy and spark html Reports -->
+        <!-- https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber6-adapter -->
         <dependency>
             <groupId>tech.grasshopper</groupId>
             <artifactId>extentreports-cucumber6-adapter</artifactId>
-            <version>2.8.2</version>
-            <scope>test</scope>
+            <version>2.8.3</version>
         </dependency>
     </dependencies>
     <!-- plugins for parallel runs and TC execution -->
@@ -78,32 +78,47 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-            <!-- For TC execution In testNG
+            <!-- For TC execution In testNG -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
-                <configuration>
-                    <includes>
-                        <include>**/ParallelRun.java</include>
-                    </includes>
-                    <parallel>methods</parallel>
-                    <threadCount>4</threadCount>
-                    <useUnlimitedThreads>false</useUnlimitedThreads>
-                </configuration>
-            </plugin> -->
+            </plugin>
             <!--For Junit parallel run -->
             <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <configuration>
-                    <parallel>methods</parallel>
-                    <threadCount>2</threadCount>
-                    <perCoreThreadCount>false</perCoreThreadCount>
-                    <!-- <useUnlimitedThreads>true</useUnlimitedThreads>-->
-                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <configuration>
+
+                            <!--UNCOMMENT - To add any exclusions if required-->
+                            <!--<excludes><exclude>**/*IT*.java</exclude></excludes> -->
+
+                            <includes>
+                                <!--UNCOMMENT BELOW LINE - To execute feature files with a single runner -->
+                                <include>**/MyTestRunner.java</include>
+                                <!--UNCOMMENT BELOW LINE - To execute feature files with multiple runners -->
+                                <!-- <include>**/*Runner.java</include> -->
+                            </includes>
+                            <!--UNCOMMENT BELOW 3 LINES - To execute using parallel or combination
+                            option -->
+                             <parallel>methods</parallel>
+                            <threadCount>4</threadCount>
+                            <perCoreThreadCount>true</perCoreThreadCount>
+                            <!-- UNCOMMENT BELOW 3 LINES - To execute using forking or combination option -->
+                           <!--  <forkCount>2</forkCount>  <reuseForks>true</reuseForks>
+                            <reportsDirectory>${project.build.directory}/failsafe-reports_${surefire.forkNumber}
+                            </reportsDirectory> -->
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+
         </plugins>
     </build>
 </project>
